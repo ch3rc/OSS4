@@ -1,5 +1,5 @@
 CC = gcc
-CFLAGS = -I. -g
+CFLAGS = -I. -g -Wall
 OBJECTS = memFunctions.o
 .SUFFIXES: .c .o
 

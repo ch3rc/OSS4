@@ -9,48 +9,62 @@
 #ifndef MEMORY_H
 #define MEMORY_H
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <ctype.h>
-#include <unistd.h>
-#include <sys/types.h>
-#include <sys/ipc.h>
-#include <sys/shm.h>
-#include <errno.h>
-#include <sys/wait.h>
-#include <signal.h>
-#include <sys/time.h>
-#include <semaphore.h>
-
 #define CLOCK 0x11111111
-#define PCBKEY 0x22222222
 #define PTABLE 0x33333333
-#define SEM 0x44444444
+#define MEM1 0x44444444
+#define MEM2 0x55555555
 
 typedef struct{
 
-	unsigned int nano;
-	unsigned int seconds;
+	unsigned int n;
+	unsigned int s;
 }Clock;
 
 typedef struct{
 
-	int processID;
-	int simulatedPID;
-	int priority;
-	Clock totalTimeCPU;
-	Clock totalTimeInSys;
-	Clock lastBurst;
+	int pid;
+	int sid;
+	int quant;
+	int p;
+	int ct;
+	int stat;
+	Clock tcpu;
+	Clock tsys;
+	Clock burst;
+	Clock bt;
+	Clock wt;
 }PCB;
 
 typedef struct{
-	
+
+	int quant;
 	PCB stack[18];
-	unsigned int quantum;
-	int state;
 
 }Ptable;
+
+typedef struct{
+
+	long mtype;
+	char msg[100];
+
+}Message;
+
+struct Queue{
+
+	int pid;
+	struct Queue *next;
+	struct Queue *prev;
+};
+
+
+
+void launchClock(Clock *,int, int);
+void moveClock(Clock *, int, int);
+void avgTime(Clock *, int);
+void reset(int);
+void insert(struct Queue**, int);
+void deleteQ(struct Queue**, int);
+void display(struct Queue *);
 
 	
 #endif

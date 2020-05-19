@@ -1,29 +1,36 @@
 =========================================================================
 			   Comile and Run
 =========================================================================
+to run "make" the "./oss"
 
+in the case you do have to remove memory, message queue's, or kill a 
+process manually.
+ipcrm -m 0x11111111 'clock memory'
+ipcrm -m 0x33333333 'table memory'
+ipcrm -Q 0x44444444 'message queue osSMsg'
+ipcrm -Q 0x55555555 'message queue usrRcv'
 
-
-
-
-
+manual process removal
+ipcs -mp | grep <user name> 'to find pid number'
+kill -s KILL -- -<pid number>
 
 ==========================================================================
 			    Log of changes
 ==========================================================================
-
+you can find log changes at github.com/ch3rc/OSS4
 
 
 
 ==========================================================================
 		               Issues
 ==========================================================================
-
-
-
-
-
-
-
+my original program that i had made got way over complicated. I totaly
+restarted the program and tried to incremently add things but started
+running out of time and getting sloppy. Currently the program will not
+kill the 100 process during run time, it will get up to 20...sometimes.
+Luckily the alarm or interupt signal handling will keep you from having
+to remove shared memory and msg q's. I could not for the life of me 
+get the processes to switch queues with a circular doubly linked list.
+I gave it my best shot on this one and will go ahead and take a loss.
 
 ==========================================================================
